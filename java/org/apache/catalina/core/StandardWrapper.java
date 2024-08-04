@@ -215,7 +215,8 @@ public class StandardWrapper extends ContainerBase
 
     /**
      * Stack containing the STM instances.
-     *
+     * <p>Servlet池
+     * <p>
      * @deprecated This will be removed in Tomcat 10.1 onwards.
      */
     @Deprecated
@@ -678,7 +679,7 @@ public class StandardWrapper extends ContainerBase
      *
      * @param child Child container to be added
      */
-    @Override
+    @Override // 不能再添加子节点了
     public void addChild(Container child) {
 
         throw new IllegalStateException
@@ -785,12 +786,15 @@ public class StandardWrapper extends ContainerBase
 
                             // Note: We don't know if the Servlet implements
                             // SingleThreadModel until we have loaded it.
+                            // 一个servlet只有被加载后才能知道是不是实现了SingleThreadModel接口
                             instance = loadServlet();
                             newInstance = true;
+                            // 如果没有继承SingleThreadModel接口
                             if (!singleThreadModel) {
                                 // For non-STM, increment here to prevent a race
                                 // condition with unload. Bug 43683, test case
                                 // #3
+                                // 分配实例的次数加1
                                 countAllocated.incrementAndGet();
                             }
                         } catch (ServletException e) {
@@ -807,6 +811,7 @@ public class StandardWrapper extends ContainerBase
             }
 
             if (singleThreadModel) {
+                // 新生成了一个实例后, 把实例放入instancePool
                 if (newInstance) {
                     // Have to do this outside of the sync above to prevent a
                     // possible deadlock

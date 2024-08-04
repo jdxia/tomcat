@@ -125,6 +125,7 @@ final class StandardWrapperValve extends ValveBase {
         // Allocate a servlet instance to process this request
         try {
             if (!unavailable) {
+                // 类, 分配实例 new XXServlet()
                 servlet = wrapper.allocate();
             }
         } catch (UnavailableException e) {
@@ -193,6 +194,7 @@ final class StandardWrapperValve extends ValveBase {
                     if (request.isAsyncDispatching()) {
                         request.getAsyncContextInternal().doInternalDispatch();
                     } else {
+                        // 调用filter链, 链中的最后一个Filter会调用Servlet
                         filterChain.doFilter
                             (request.getRequest(), response.getResponse());
                     }

@@ -66,9 +66,14 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
+    <!-- 可以改端口 -->
     <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" />
+
+    <!-- 一个ip不同端口 -->
+    <!--    <Connector port="8081" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />-->
+
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
@@ -129,6 +134,16 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
+    <!--
+      层级关系:
+        Engine: (一个tomcat就一个engine, 指定默认的host )
+          Host: (一个engine可以有多个host)
+            Context: (一个host可以有多个context)
+
+        Engine: List<Host> hosts
+          Host: List<Context> contexts
+            Context: List<Servlet> servlets
+      -->
     <Engine name="Catalina" defaultHost="localhost">
 
       <!--For clustering, please take a look at documentation at:
@@ -149,6 +164,11 @@
                resourceName="UserDatabase"/>
       </Realm>
 
+      <!--
+        部署war包放到webapps下面可以是因为这个, 看下appBase就是要放到这个下面
+        unpackWARs 就是自动解压
+        autoDeploy 自动部署
+       -->
       <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
 
@@ -164,6 +184,13 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+        <!--
+          path:指定访问该Web应用的URL入口（context-path）, 比如上面是localhost, 我这边path是/mvc, 那就是 http://localhost/mvc
+          docBase:指定Web应用的文件路径，可以给定绝对路径，也可以给定相对于<Host>的appBase属性的相对路径。
+          reloadable:如果这个属性设为true，tomcat服务器在运行状态下会监视在WEB-INF/classes和WEB-INF/lib目录下class文件的改动，如果监测到有class文件被更新的，服务器会自动重新加载Web应用。
+        -->
+        <!--        <Context docBase="D:\mvc" path="/mvc"  reloadable="true" />-->
 
       </Host>
     </Engine>

@@ -42,6 +42,7 @@ public interface Pipeline extends Contained {
      * @return the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).
      */
+    // 基础的处理阀
     public Valve getBasic();
 
 
@@ -83,6 +84,7 @@ public interface Pipeline extends Contained {
      * @exception IllegalStateException if the specified Valve is already
      *  associated with a different Container
      */
+    // 对节点(阀门)增删查
     public void addValve(Valve valve);
 
 
@@ -113,6 +115,7 @@ public interface Pipeline extends Contained {
      * @return the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).
      */
+    // 获取第一个节点, 遍历的起点, 所以需要这个方法
     public Valve getFirst();
 
 

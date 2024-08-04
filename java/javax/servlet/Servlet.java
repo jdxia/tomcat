@@ -54,6 +54,12 @@ import java.io.IOException;
  * @see javax.servlet.http.HttpServlet
  */
 public interface Servlet {
+    /**
+     * Servlet 规范提供了 GenericServlet 抽象类，我们可以通过扩展它来实现 Servlet
+     *
+     * Servlet 规范并不在乎通信协议是什么，但是大多数的 Servlet 都是在 HTTP 环境中处理的,
+     * 因此 Servet 规范还提供了 HttpServlet 来继承 GenericServlet，并且加入了 HTTP 特性
+     */
 
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
@@ -84,6 +90,8 @@ public interface Servlet {
      * @see UnavailableException
      * @see #getServletConfig
      */
+    // Servlet 容器在加载 Servlet 类的时候会调用 init 方法
+    // Spring MVC 中的 DispatcherServlet，就是在 init 方法里创建了自己的 Spring 容器
     public void init(ServletConfig config) throws ServletException;
 
     /**
@@ -144,6 +152,13 @@ public interface Servlet {
      * @exception IOException
      *                if an input or output exception occurs
      */
+    /**
+     * ServletRequest 用来封装请求信息，ServletResponse 用来封装响应信息，因此本质上这两个类是对通信协议的封装
+     *
+     * 比如 HTTP 协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个类。
+     * 可以通过 HttpServletRequest 来获取所有请求相关的信息，包括请求路径、Cookie、HTTP 头、请求参数等
+     *
+     */
     public void service(ServletRequest req, ServletResponse res)
             throws ServletException, IOException;
 
@@ -173,5 +188,6 @@ public interface Servlet {
      * sure that any persistent state is synchronized with the servlet's current
      * state in memory.
      */
+    // 在卸载的时候会调用 destroy 方法
     public void destroy();
 }

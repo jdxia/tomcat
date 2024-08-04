@@ -23,6 +23,7 @@ import java.util.Enumeration;
  * information to a servlet during initialization.
  */
 public interface ServletConfig {
+    // 作用就是封装 Servlet 的初始化参数。你可以在web.xml给 Servlet 配置参数，并在程序里通过 getServletConfig 方法拿到这些参数
 
     /**
      * Returns the name of this servlet instance. The name may be provided via

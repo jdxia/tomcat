@@ -178,6 +178,8 @@ public interface Lifecycle {
      *
      * @param listener The listener to add
      */
+    /** 针对监听器 */
+    // 添加监听器
     public void addLifecycleListener(LifecycleListener listener);
 
 
@@ -188,6 +190,7 @@ public interface Lifecycle {
      *         life cycle. If this component has no listeners registered, a
      *         zero-length array is returned.
      */
+    // 获取所有监听器
     public LifecycleListener[] findLifecycleListeners();
 
 
@@ -196,6 +199,7 @@ public interface Lifecycle {
      *
      * @param listener The listener to remove
      */
+    // 移除某个监听器
     public void removeLifecycleListener(LifecycleListener listener);
 
 
@@ -211,6 +215,8 @@ public interface Lifecycle {
      * @exception LifecycleException if this component detects a fatal error
      *  that prevents this component from being used
      */
+    /** 针对控制流程 */
+    // 初始化方法
     public void init() throws LifecycleException;
 
     /**
@@ -239,6 +245,7 @@ public interface Lifecycle {
      * @exception LifecycleException if this component detects a fatal error
      *  that prevents this component from being used
      */
+    // 启动方法
     public void start() throws LifecycleException;
 
 
@@ -273,6 +280,7 @@ public interface Lifecycle {
      * @exception LifecycleException if this component detects a fatal error
      *  that needs to be reported
      */
+    // 停止方法和start对应
     public void stop() throws LifecycleException;
 
     /**
@@ -286,6 +294,7 @@ public interface Lifecycle {
      * @exception LifecycleException if this component detects a fatal error
      *  that prevents this component from being used
      */
+    // 销毁方法, 和init对应
     public void destroy() throws LifecycleException;
 
 
@@ -294,6 +303,8 @@ public interface Lifecycle {
      *
      * @return The current state of the source component.
      */
+    /** 针对状态 */
+    // 获取生命周期的状态
     public LifecycleState getState();
 
 
@@ -314,6 +325,7 @@ public interface Lifecycle {
      * will automatically call {@link #destroy()} after {@link #stop()}
      * completes.
      */
+    // 获取字符串类型的生命周期状态
     public interface SingleUse {
     }
 }

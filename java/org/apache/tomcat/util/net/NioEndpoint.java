@@ -784,6 +784,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                             // Do a non blocking select
                             keyCount = selector.selectNow();
                         } else {
+                            // 检测Channel数据的就绪状态(read事件)
                             keyCount = selector.select(selectorTimeout);
                         }
                         wakeupCounter.set(0);
